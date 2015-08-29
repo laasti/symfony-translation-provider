@@ -1,0 +1,24 @@
+{
+    "name": "laasti/symfony-translation-provider",
+    "description": "A league/container service provdier for Symfony's translation component.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sonia Marquette",
+            "email": "contact@nebulousweb.com"
+        }
+    ],
+    "require": {
+        "league/container": "^1.3",
+        "symfony/translation": "^2.7"
+    },
+    "require-dev": {
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Laasti\\SymfonyTranslationProvider\\": "src/"
+        }
+    }
+}
