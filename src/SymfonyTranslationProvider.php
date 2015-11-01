@@ -55,6 +55,9 @@ class SymfonyTranslationProvider extends ServiceProvider
             }
             return $translator;
         }, true);
+
+        $di->inflector('Laasti\SymfonyTranslationProvider\TranslatorAwareInterface')
+          ->invokeMethod('setTranslator', ['Symfony\Component\Translation\Translator']);
     }
 
     public function provides($alias = null)
