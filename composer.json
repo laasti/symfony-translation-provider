@@ -1,6 +1,6 @@
 {
     "name": "laasti/symfony-translation-provider",
-    "description": "A league/container service provdier for Symfony's translation component.",
+    "description": "A league/container service provider for Symfony's translation component.",
     "license": "MIT",
     "authors": [
         {
