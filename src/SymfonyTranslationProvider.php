@@ -10,7 +10,8 @@ class SymfonyTranslationProvider extends ServiceProvider
 
     protected $defaultProvides = [
         'Symfony\Component\Translation\Translator',
-        'Symfony\Component\Translation\Loader\LoaderInterface'
+        'Symfony\Component\Translation\Loader\LoaderInterface',
+        'Laasti\SymfonyTranslationProvider\TranslationArray'
     ];
     protected $defaultConfig = [
         'locale' => 'en',
@@ -55,7 +56,7 @@ class SymfonyTranslationProvider extends ServiceProvider
             }
             return $translator;
         }, true);
-
+        $di->add('Laasti\SymfonyTranslationProvider\TranslationArray')->withArgument('Symfony\Component\Translation\Translator');
         $di->inflector('Laasti\SymfonyTranslationProvider\TranslatorAwareInterface')
           ->invokeMethod('setTranslator', ['Symfony\Component\Translation\Translator']);
     }
