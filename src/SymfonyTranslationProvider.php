@@ -5,7 +5,7 @@ namespace Laasti\SymfonyTranslationProvider;
 use League\Container\ServiceProvider;
 use Symfony\Component\Translation\Translator;
 
-class SymfonyTranslationProvider extends ServiceProvider
+class SymfonyTranslationProvider extends ServiceProvider\AbstractServiceProvider implements ServiceProvider\BootableServiceProviderInterface
 {
 
     protected $defaultProvides = [
@@ -57,8 +57,12 @@ class SymfonyTranslationProvider extends ServiceProvider
             return $translator;
         }, true);
         $di->add('Laasti\SymfonyTranslationProvider\TranslationArray')->withArgument('Symfony\Component\Translation\Translator');
-        $di->inflector('Laasti\SymfonyTranslationProvider\TranslatorAwareInterface')
-          ->invokeMethod('setTranslator', ['Symfony\Component\Translation\Translator']);
+    }
+
+    public function boot()
+    {
+        $this->getContainer()->inflector('Laasti\SymfonyTranslationProvider\TranslatorAwareInterface')
+             ->invokeMethod('setTranslator', ['Symfony\Component\Translation\Translator']);
     }
 
     public function provides($alias = null)
@@ -73,8 +77,10 @@ class SymfonyTranslationProvider extends ServiceProvider
                 $this->provides[] = 'translation.loader.' . $loaderName;
             }
         }
-
-        return in_array($alias, $this->provides);
+        if (! is_null($alias)) {
+            return (in_array($alias, $this->provides));
+        }
+        return $this->provides;
     }
 
     protected function getConfig()
@@ -84,12 +90,10 @@ class SymfonyTranslationProvider extends ServiceProvider
         }
 
         $di = $this->getContainer();
-
-        $config = $this->defaultConfig;
-        if (isset($di['config.translation']) && is_array($di['config.translation'])) {
-            $config = array_merge($config, $di['config.translation']);
+        if ($di->has('config') && isset($di->get('config')['translation'])) {
+            $config = array_merge($this->defaultConfig, $di->get('config')['translation']);
         }
-        $this->config = $config;
+        $this->config = isset($config) ? $config : $this->defaultConfig;
 
         return $this->config;
     }

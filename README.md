@@ -1,6 +1,6 @@
 # Laasti/symfony-translation-provider
 
-A league/container service provider for Symfony's translation component.
+A league/container v2 service provider for Symfony's translation component.
 
 ## Installation
 
@@ -53,7 +53,7 @@ $translator->trans('hello_world); //returns "Hello"
 
 ## History
 
-See CHANGELOG.md for more information.
+See Github's releases, or tags
 
 ## Credits
 

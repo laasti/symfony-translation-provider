@@ -21,18 +21,20 @@ class SymfonyTranslationProviderTest extends \PHPUnit_Framework_TestCase
     public function testConfig()
     {
         $container = new Container();
-        $container->addServiceProvider(new SymfonyTranslationProvider);
-        $container->add('config.translation', [
-            'locale' => 'fr',
-            'resources' => [
-                'fr' => [
-                    ['array', ['okay' => 'correct']]
-                ],
-                'en' => [
-                    ['array', ['scared' => 'scaredy cat', 'okay' => 'okay']]
-                ],
+        $container->add('config', [
+            'translation' => [
+                'locale' => 'fr',
+                'resources' => [
+                    'fr' => [
+                        ['array', ['okay' => 'correct']]
+                    ],
+                    'en' => [
+                        ['array', ['scared' => 'scaredy cat', 'okay' => 'okay']]
+                    ],
+                ]
             ]
         ]);
+        $container->addServiceProvider(new SymfonyTranslationProvider);
         $translator = $container->get('Symfony\Component\Translation\Translator');
         $this->assertTrue($translator->trans('okay') === 'correct');
         $this->assertTrue($translator->trans('scared') === 'scaredy cat');

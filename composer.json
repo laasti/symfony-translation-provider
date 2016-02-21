@@ -1,6 +1,6 @@
 {
     "name": "laasti/symfony-translation-provider",
-    "description": "A league/container service provider for Symfony's translation component.",
+    "description": "A league/container v2 service provider for Symfony's translation component.",
     "license": "MIT",
     "authors": [
         {
@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "league/container": "^1.3",
+        "league/container": "~2.0.3",
         "symfony/translation": "^2.7"
     },
     "require-dev": {
