@@ -41,7 +41,7 @@ class SymfonyTranslationProvider extends ServiceProvider\AbstractServiceProvider
             $di->add('translation.loader.' . $name, $class);
         }
 
-        $di->add('Symfony\Component\Translation\Translator', function() use ($di, $config) {
+        $di->add('Symfony\Component\Translation\Translator', function () use ($di, $config) {
             $selector = $di->get($config['message_selector_class']);
             $translator = new Translator($config['locale'], $selector);
             $translator->setFallbackLocales($config['fallback_locales']);
@@ -59,30 +59,6 @@ class SymfonyTranslationProvider extends ServiceProvider\AbstractServiceProvider
         $di->add('Laasti\SymfonyTranslationProvider\TranslationArray')->withArgument('Symfony\Component\Translation\Translator');
     }
 
-    public function boot()
-    {
-        $this->getContainer()->inflector('Laasti\SymfonyTranslationProvider\TranslatorAwareInterface')
-             ->invokeMethod('setTranslator', ['Symfony\Component\Translation\Translator']);
-    }
-
-    public function provides($alias = null)
-    {
-        if (empty($this->provides)) {
-            $this->provides = $this->defaultProvides;
-            $config = $this->getConfig();
-            $this->provides[] = $config['message_selector_class'];
-
-            foreach ($config['loaders'] as $loaderName => $loaderClass) {
-                $this->provides[] = $loaderClass;
-                $this->provides[] = 'translation.loader.' . $loaderName;
-            }
-        }
-        if (! is_null($alias)) {
-            return (in_array($alias, $this->provides));
-        }
-        return $this->provides;
-    }
-
     protected function getConfig()
     {
         if (!is_null($this->config)) {
@@ -98,4 +74,27 @@ class SymfonyTranslationProvider extends ServiceProvider\AbstractServiceProvider
         return $this->config;
     }
 
+    public function boot()
+    {
+        $this->getContainer()->inflector('Laasti\SymfonyTranslationProvider\TranslatorAwareInterface')
+            ->invokeMethod('setTranslator', ['Symfony\Component\Translation\Translator']);
+    }
+
+    public function provides($alias = null)
+    {
+        if (empty($this->provides)) {
+            $this->provides = $this->defaultProvides;
+            $config = $this->getConfig();
+            $this->provides[] = $config['message_selector_class'];
+
+            foreach ($config['loaders'] as $loaderName => $loaderClass) {
+                $this->provides[] = $loaderClass;
+                $this->provides[] = 'translation.loader.' . $loaderName;
+            }
+        }
+        if (!is_null($alias)) {
+            return (in_array($alias, $this->provides));
+        }
+        return $this->provides;
+    }
 }
