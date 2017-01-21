@@ -39,5 +39,4 @@ class SymfonyTranslationProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($translator->trans('okay') === 'correct');
         $this->assertTrue($translator->trans('scared') === 'scaredy cat');
     }
-
 }
